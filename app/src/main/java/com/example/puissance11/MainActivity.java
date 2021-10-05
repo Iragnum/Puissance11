@@ -46,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
             onResume();
         });
 
+        connexion.setOnClickListener(view -> {
+
+            Intent retour3 = new Intent(this, Connexion.class);
+            retour3.putExtra("musicKey",tempsMusique);
+            startActivityForResult(retour3,3);
+            overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
+
+        });
+
 
         jouer.setOnClickListener(view -> {
             if(jeu==0) {
@@ -67,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(retour,1);
             overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
         });
+
+
     }
 
     @Override

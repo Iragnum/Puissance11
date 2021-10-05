@@ -7,6 +7,45 @@
     android:background="@drawable/background"
     tools:context=".Connexion">
 
+    <Button
+        android:id="@+id/buttonRetour"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@drawable/custom_button_clicked"
+        android:color="@color/button_default"
+        android:fontFamily="@font/baloo"
+        android:text="Retour"
+        android:textAllCaps="false"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#000000"
+        android:textColorLink="#D34242"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonGoogle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/buttonGoogle"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoogle"
+        app:layout_constraintVertical_bias="0.394" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/connexion"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#000000"
+        android:textColorLink="#D34242"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.134"
+        app:layout_constraintVertical_chainStyle="spread" />
+
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
@@ -104,7 +143,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonConnexion" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonConnexion"
+        app:layout_constraintVertical_bias="0.191" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "593021733422-hrvdj74itag1l8oduavmutj58pnevmpn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.puissance11",
+            "certificate_hash": "fc5c38ff6a2ece00b36850c78be7afcb59e3d63c"
+          }
+        },
+        {
           "client_id": "593021733422-i38r7c6pej0ja5dsn92rcf0187330adk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

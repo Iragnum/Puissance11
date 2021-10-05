@@ -79,9 +79,30 @@ public class Inscription extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
+        setContentView(R.layout.activity_inscription);
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        extras=getIntent().getExtras();
         //cacher la barre du bas
         cacherBarre();
         //cacher la barre du bas fin
+        if (extras != null) {
+            tempsMusique = extras.getInt("musicKey");
+        }
+        mediaPlayer.seekTo(tempsMusique);
+        mediaPlayer.start();
+        retour=findViewById(R.id.cancel);
+        retour.setOnClickListener(view ->  {
+            intent.putExtra("connected",false);
+            intent.putExtra("musicKey",tempsMusique);
+            setResult(Activity.RESULT_OK,intent);
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer=null;
+            finish();
+        });
+
+
 
         //init des variables
         mAuth = FirebaseAuth.getInstance();
@@ -94,26 +115,6 @@ public class Inscription extends AppCompatActivity {
         bouton_inscrire = findViewById(R.id.buttonInscrire);
         bouton_inscrire.setOnClickListener(bouton_inscrire_listener);
         //fin init
-
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
-        setContentView(R.layout.activity_inscription);
-        intent = new Intent(getApplicationContext(), MainActivity.class);
-        extras=getIntent().getExtras();
-        if (extras != null) {
-            tempsMusique = extras.getInt("musicKey");
-        }
-        mediaPlayer.seekTo(tempsMusique);
-        mediaPlayer.start();
-        retour=findViewById(R.id.cancel);
-        retour.setOnClickListener(view ->  {
-            intent.putExtra("connected",true);
-            intent.putExtra("musicKey",tempsMusique);
-            setResult(Activity.RESULT_OK,intent);
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer=null;
-            finish();
-        });
 
     }
 
@@ -180,6 +181,14 @@ public class Inscription extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
        add_database();
+        intent.putExtra("connected",true);
+        intent.putExtra("musicKey",tempsMusique);
+        intent.putExtra("utilisateur",user);
+        setResult(Activity.RESULT_OK,intent);
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer=null;
+        finish();
 
     }
 
@@ -190,7 +199,8 @@ public class Inscription extends AppCompatActivity {
         utilisateur.put("nom", editNom.getText().toString());
         utilisateur.put("prenom", editPrenom.getText().toString());
         utilisateur.put("email", editEmail.getText().toString());
-        utilisateur.put("date de naissance", editDate.getText().toString());     //new Timestamp(new Date())
+        //utilisateur.put("sexe", editEmail.getText().toString());
+        utilisateur.put("date de naissance", editDate.getText().toString());
         utilisateur.put("score", 0);
         utilisateur.put("rang", 1);
 
