@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Puissance11"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonInscrire"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:background="@drawable/custom_button_clicked"
+        android:color="@color/button_default"
+        android:fontFamily="@font/baloo"
+        android:text="@string/inscrire"
+        android:textAllCaps="false"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#000000"
+        android:textColorLink="#D34242"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editMdp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="411dp"
+        android:layout_height="47dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/editEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDate">
+
+        <RadioButton
+            android:id="@+id/radioHomme"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:text="Homme"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#D34242"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/radioFemme"
+            android:layout_width="156dp"
+            android:layout_height="47dp"
+            android:text="Femme"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#D34242"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editNom"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Nom"
+        android:inputType="textPersonName"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#70000000"
+        android:textColorLink="#D34242"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editPrenom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editPrenom"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Prenom"
+        android:inputType="textPersonName"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#70000000"
+        android:textColorLink="#D34242"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editNom"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/editDate"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="01/01/1970"
+        android:inputType="date"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#70000000"
+        android:textColorLink="#D34242"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPrenom" />
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="xxx@yyy.com"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#70000000"
+        android:textColorLink="#D34242"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editMdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/editMdp"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="********"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#70000000"
+        android:textColorLink="#D34242"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonInscrire"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editEmail"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancel"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:background="@drawable/custom_button_clicked"
+        android:color="@color/button_default"
+        android:fontFamily="@font/baloo"
+        android:text="@string/retour"
+        android:textAllCaps="false"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#000000"
+        android:textColorLink="#D34242"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonInscrire" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

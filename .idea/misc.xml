@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/I5/Android/Ovni/app/src/main/res/drawable/custom_button_clicked.xml" value="0.15885416666666666" />
+        <entry key="..\:/I5/Android/Ovni/app/src/main/res/drawable/custom_button_clicked_green.xml" value="0.1" />
+        <entry key="..\:/I5/Android/Ovni/app/src/main/res/layout/activity_inscription.xml" value="0.14990942028985507" />
+        <entry key="..\:/I5/Android/Ovni/app/src/main/res/layout/activity_jeu.xml" value="0.25" />
+        <entry key="..\:/I5/Android/Ovni/app/src/main/res/layout/activity_jeu_puit.xml" value="0.33" />
+        <entry key="..\:/I5/Android/Ovni/app/src/main/res/layout/activity_main.xml" value="0.14270833333333333" />
+        <entry key="..\:/Projets android/Puissance11/app/src/main/res/layout/activity_inscription.xml" value="0.28940217391304346" />
+        <entry key="..\:/Projets android/Puissance11/app/src/main/res/layout/activity_jeu.xml" value="0.5" />
+        <entry key="..\:/Projets android/Puissance11/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
+        <entry key="..\:/Projets android/Puissance11/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3828125" />
+        <entry key="..\:/Users/Flo/Documents/Android_Studio/Ovni/app/src/main/res/layout/activity_connexion.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Flo/Documents/Android_Studio/Ovni/app/src/main/res/layout/activity_inscription.xml" value="0.33" />
+        <entry key="..\:/Users/Flo/Documents/Android_Studio/Ovni/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Flo/Documents/Android_Studio/Ovni/app/src/main/res/layout/fragment_inscription1.xml" value="0.33" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Puissance11/app/src/main/res/drawable/background.xml" value="0.1425925925925926" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Puissance11/app/src/main/res/drawable/custom_button.xml" value="0.2942708333333333" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Puissance11/app/src/main/res/drawable/custom_button_click.xml" value="0.1425925925925926" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Puissance11/app/src/main/res/drawable/custom_button_clicked.xml" value="0.1425925925925926" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Puissance11/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2942708333333333" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Puissance11/app/src/main/res/layout/activity_inscription.xml" value="0.22" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/Puissance11/app/src/main/res/layout/activity_main.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
