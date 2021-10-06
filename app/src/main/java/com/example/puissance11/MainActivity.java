@@ -155,8 +155,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        jouer.setEnabled(connected);
-        inscription.setEnabled(!connected);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -177,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        jouer.setEnabled(connected);
+        inscription.setEnabled(!connected);
         if(connected) {
             connexion.setVisibility(View.INVISIBLE);
             deconnexion.setVisibility(View.VISIBLE);

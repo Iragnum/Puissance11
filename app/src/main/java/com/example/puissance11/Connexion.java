@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.AuthCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -29,9 +31,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Connexion extends AppCompatActivity {
+
 
     AppCompatButton retour;
     Intent intent;
@@ -40,6 +45,7 @@ public class Connexion extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     EditText editPassword, editMail;
     Button bouton_connexion, bouton_google;
+    private DatabaseReference mDatabase;
 
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
@@ -76,6 +82,7 @@ public class Connexion extends AppCompatActivity {
     };
 
     private FirebaseAuth mAuth;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,10 +192,10 @@ public class Connexion extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(Connexion.this, "Connecté", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user, "google");
                         } else {
                             Toast.makeText(Connexion.this, "NAZE", Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null,"null");
                         }
                     }
                 });
@@ -229,12 +236,12 @@ public class Connexion extends AppCompatActivity {
 
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Connexion.this, "Connecté", Toast.LENGTH_SHORT).show();
-                            updateUI(user);
+                            updateUI(user,"email");
                         } else {
                             // If sign in fails, display a message to the user.
 
                             Toast.makeText(Connexion.this, "Erreur - Mot de passe ou identifiant incorrect.", Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null,"null");
                         }
                     }
                 });
@@ -253,15 +260,23 @@ public class Connexion extends AppCompatActivity {
 
     }
 
-    private void updateUI(FirebaseUser user) { //pour basculer dans la nouvelle activité
+    private void updateUI(FirebaseUser user, String type) { //pour basculer dans la nouvelle activité
 
-        intent.putExtra("connected",true);
+        //intent.putExtra("connected",true);
+        if (type.equals("google"))
+        {
+            mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+            mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
+            mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
+            mDatabase.child("users").child(user.getUid()).child("score").setValue(1);
+        }
         intent.putExtra("musicKey",tempsMusique);
         intent.putExtra("utilisateur",user);
         setResult(Activity.RESULT_OK,intent);
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer=null;
+
         finish();
 
     }

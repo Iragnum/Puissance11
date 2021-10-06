@@ -25,8 +25,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +45,7 @@ public class Inscription extends AppCompatActivity {
     EditText editNom, editPrenom, editMdp, editEmail, editDate;
     Button bouton_inscrire;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     private FirebaseFirestore db;
 
 
@@ -180,8 +184,9 @@ public class Inscription extends AppCompatActivity {
 
 
     private void updateUI(FirebaseUser user) {
-       add_database();
-        intent.putExtra("connected",true);
+       add_database(user);
+        System.out.println("Dans le update ui");
+        //intent.putExtra("connected",true);
         intent.putExtra("musicKey",tempsMusique);
         intent.putExtra("utilisateur",user);
         setResult(Activity.RESULT_OK,intent);
@@ -193,17 +198,35 @@ public class Inscription extends AppCompatActivity {
     }
 
 
-    private void add_database()
+    private void add_database(FirebaseUser user)
     {
-        Map<String, Object> utilisateur = new HashMap<>();
-        utilisateur.put("nom", editNom.getText().toString());
-        utilisateur.put("prenom", editPrenom.getText().toString());
-        utilisateur.put("email", editEmail.getText().toString());
-        //utilisateur.put("sexe", editEmail.getText().toString());
-        utilisateur.put("date de naissance", editDate.getText().toString());
-        utilisateur.put("score", 0);
-        utilisateur.put("rang", 1);
+        mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+        System.out.println("Dans le add_database");
+        mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.e("Test", "Succes ! ");
+                System.out.println("Dans le succes");
+                // ...
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Erreur", "Non Succes ! ");
+                        System.out.println("Dans l'echec ");
+                        // ...
+                    }
+                });
+        mDatabase.child("users").child(user.getUid()).child("nom").setValue(editNom.getText().toString());
+        mDatabase.child("users").child(user.getUid()).child("prenom").setValue(editPrenom.getText().toString());
+        mDatabase.child("users").child(user.getUid()).child("date de naissance").setValue(editDate.getText().toString());
+        mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
+        mDatabase.child("users").child(user.getUid()).child("score").setValue(1);
 
+        //utilisateur.put("sexe", editEmail.getText().toString());
+       /* Map<String, Object> utilisateur = new HashMap<>();
+        utilisateur.put("nom", editNom.getText().toString());
         db.collection("utilisateurs")
                 .add(utilisateur)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -217,7 +240,7 @@ public class Inscription extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.e("Fail","C'est pas good");
                     }
-                });
+                });*/
 
     }
 
