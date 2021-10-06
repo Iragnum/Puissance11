@@ -10,6 +10,11 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     AppCompatButton jouer;
@@ -17,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     AppCompatButton inscription;
     AppCompatButton deconnexion;
     MediaPlayer mediaPlayer;
+    TextView user_connecte;
     boolean connected;
     boolean gagne = false;
     int jeu = 0;
@@ -33,16 +39,23 @@ public class MainActivity extends AppCompatActivity {
 
         cacherBarre();
 
-        connected =false;
+        user_connecte= findViewById(R.id.textViewConnexion);
         jouer = findViewById(R.id.jouer);
         connexion = findViewById(R.id.connexion);
         inscription = findViewById(R.id.cancel);
         deconnexion = findViewById(R.id.deconnexion);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user_connecte.setText(user.getEmail());
+            connected =true;
+        } else {
+            user_connecte.setText("Non connecté");
+            connected =false;
+        }
         deconnexion.setOnClickListener(view -> {
-            connected=false;
-            //mAuth.signOut();
-            //Toast.makeText(Inscription.this, "Déconnecté", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(MainActivity.this, "Déconnecté", Toast.LENGTH_SHORT).show();
             onResume();
         });
 
@@ -76,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(retour,1);
             overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
         });
-
 
     }
 
@@ -145,6 +157,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         jouer.setEnabled(connected);
         inscription.setEnabled(!connected);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user_connecte.setText(user.getEmail());
+            connected =true;
+        } else {
+            user_connecte.setText("Non connecté");
+            connected =false;
+        }
         if(!musicNotReleased) {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
             musicNotReleased = true;
