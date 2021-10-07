@@ -200,24 +200,8 @@ public class Inscription extends AppCompatActivity {
 
     private void add_database(FirebaseUser user)
     {
-        mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
-        System.out.println("Dans le add_database");
-        mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.e("Test", "Succes ! ");
-                System.out.println("Dans le succes");
-                // ...
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("Erreur", "Non Succes ! ");
-                        System.out.println("Dans l'echec ");
-                        // ...
-                    }
-                });
+
+        mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
         mDatabase.child("users").child(user.getUid()).child("nom").setValue(editNom.getText().toString());
         mDatabase.child("users").child(user.getUid()).child("prenom").setValue(editPrenom.getText().toString());
         mDatabase.child("users").child(user.getUid()).child("date de naissance").setValue(editDate.getText().toString());

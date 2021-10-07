@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -266,9 +267,22 @@ public class Connexion extends AppCompatActivity {
         if (type.equals("google"))
         {
             mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
-            mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
-            mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
-            mDatabase.child("users").child(user.getUid()).child("score").setValue(1);
+            mDatabase.child("users").child(user.getUid()).get()
+                    .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+
+                    }
+                    else {
+                        mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
+                        mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
+                        mDatabase.child("users").child(user.getUid()).child("score").setValue(1);
+                    }
+                }
+            });
+
         }
         intent.putExtra("musicKey",tempsMusique);
         intent.putExtra("utilisateur",user);
@@ -281,5 +295,4 @@ public class Connexion extends AppCompatActivity {
 
     }
 
-    // Deconnexion : FirebaseAuth.getInstance().signOut(this);
 }
