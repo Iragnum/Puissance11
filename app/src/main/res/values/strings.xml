@@ -1,3 +1,4 @@
+
 <resources>
     <string name="app_name">Ovni</string>
     <string name="button">Connexion</string>
@@ -13,10 +14,5 @@
     <string name="sexe">Sexe</string>
     <string name="email">E-mail</string>
     <string name="mdp">Mot de passe</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- TODO: Il faut faire en sorte que l'user passe d'une activité à une autre. Tester si l'user est connecté, afficher l'adresse mail (user) et pouvoir se déco
-      Todo : Ajouter le serveur réseau
-      Todo : Lier la BDD avec un user et regarder pour le rang-->
+    <string name="regle">Règles</string>
 </resources>

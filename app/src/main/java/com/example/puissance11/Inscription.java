@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,18 +44,19 @@ public class Inscription extends AppCompatActivity {
     Bundle extras;
     MediaPlayer mediaPlayer;
 
-    EditText editNom, editPrenom, editMdp, editEmail, editDate;
-    Button bouton_inscrire;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    private EditText editNom, editPrenom, editMdp, editEmail, editDate;
+    private Button bouton_inscrire;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private FirebaseFirestore db;
 
 
     private View.OnClickListener bouton_inscrire_listener = new View.OnClickListener() {
 
         public void onClick(View v) {
 
-
+            int selectedId = radioGroup.getCheckedRadioButtonId();
             String email = editEmail.getText().toString();
             String password = editMdp.getText().toString();
 
@@ -75,6 +78,30 @@ public class Inscription extends AppCompatActivity {
                 editMdp.setError("Il faut mettre au moins 6 caractères");
                 return;
             }
+
+            if (selectedId == -1)
+            {
+                Toast.makeText(Inscription.this, "Erreur - Il faut sélectionner le sexe", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (TextUtils.isEmpty(editNom.getText().toString()))
+            {
+                editNom.setError("Il faut renseigner le nom");
+                return;
+            }
+
+            if (TextUtils.isEmpty(editPrenom.getText().toString()))
+            {
+                editPrenom.setError("Il faut renseigner le prénom");
+                return;
+            }
+
+            if (TextUtils.isEmpty(editDate.getText().toString()))
+            {
+                editDate.setError("Il faut renseigner la date de naissance");
+                return;
+            }
             createAccount(email,password);
         }
     };
@@ -82,14 +109,16 @@ public class Inscription extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //cacher la barre du bas
+        cacherBarre();
+        //cacher la barre du bas fin
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
         setContentView(R.layout.activity_inscription);
         intent = new Intent(getApplicationContext(), MainActivity.class);
         extras=getIntent().getExtras();
-        //cacher la barre du bas
-        cacherBarre();
-        //cacher la barre du bas fin
+        mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+
         if (extras != null) {
             tempsMusique = extras.getInt("musicKey");
         }
@@ -97,7 +126,6 @@ public class Inscription extends AppCompatActivity {
         mediaPlayer.start();
         retour=findViewById(R.id.cancel);
         retour.setOnClickListener(view ->  {
-            intent.putExtra("connected",false);
             intent.putExtra("musicKey",tempsMusique);
             setResult(Activity.RESULT_OK,intent);
             mediaPlayer.stop();
@@ -110,7 +138,9 @@ public class Inscription extends AppCompatActivity {
 
         //init des variables
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        radioGroup = findViewById(R.id.radioGroup);
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        System.out.println("Selected id : "+selectedId);
         editNom = findViewById(R.id.editNom);
         editPrenom = findViewById(R.id.editPrenom);
         editMdp = findViewById(R.id.editMdp);
@@ -185,8 +215,6 @@ public class Inscription extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
        add_database(user);
-        System.out.println("Dans le update ui");
-        //intent.putExtra("connected",true);
         intent.putExtra("musicKey",tempsMusique);
         intent.putExtra("utilisateur",user);
         setResult(Activity.RESULT_OK,intent);
@@ -200,31 +228,15 @@ public class Inscription extends AppCompatActivity {
 
     private void add_database(FirebaseUser user)
     {
-
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(selectedId);
         mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
         mDatabase.child("users").child(user.getUid()).child("nom").setValue(editNom.getText().toString());
         mDatabase.child("users").child(user.getUid()).child("prenom").setValue(editPrenom.getText().toString());
+        mDatabase.child("users").child(user.getUid()).child("sexe").setValue(radioButton.getText().toString());
         mDatabase.child("users").child(user.getUid()).child("date de naissance").setValue(editDate.getText().toString());
         mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
-        mDatabase.child("users").child(user.getUid()).child("score").setValue(1);
-
-        //utilisateur.put("sexe", editEmail.getText().toString());
-       /* Map<String, Object> utilisateur = new HashMap<>();
-        utilisateur.put("nom", editNom.getText().toString());
-        db.collection("utilisateurs")
-                .add(utilisateur)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.e("Success","C'est good");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("Fail","C'est pas good");
-                    }
-                });*/
+        mDatabase.child("users").child(user.getUid()).child("score").setValue(0);
 
     }
 

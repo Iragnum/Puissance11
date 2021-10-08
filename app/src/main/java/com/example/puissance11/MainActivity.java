@@ -9,20 +9,30 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private DatabaseReference mDatabase;
     AppCompatButton jouer;
     AppCompatButton connexion;
     AppCompatButton inscription;
     AppCompatButton deconnexion;
     MediaPlayer mediaPlayer;
-    TextView user_connecte;
+    TextView user_connecte, score, rang;
     boolean connected;
     boolean gagne = false;
     int jeu = 0;
@@ -38,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cacherBarre();
-
+        mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users");
         user_connecte= findViewById(R.id.textViewConnexion);
+        score= findViewById(R.id.textViewScore);
+        rang= findViewById(R.id.textViewRang);
         jouer = findViewById(R.id.jouer);
         connexion = findViewById(R.id.connexion);
         inscription = findViewById(R.id.cancel);
@@ -49,8 +61,11 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             user_connecte.setText(user.getEmail());
             connected =true;
+
         } else {
             user_connecte.setText("Non connecté");
+            score.setText("");
+            rang.setText("");
             connected =false;
         }
         deconnexion.setOnClickListener(view -> {
@@ -75,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
                 retour2.putExtra("musicKey", tempsMusique);
                 startActivityForResult(retour2, 2);
                 overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
+
+
+
+
             }else{
                 Intent retour2 = new Intent(this, JeuPuit.class);
                 retour2.putExtra("musicKey", tempsMusique);
@@ -157,11 +176,28 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user != null) {
             user_connecte.setText(user.getEmail());
+            readScore(new MyCallback() {
+                @Override
+                public void onCallback(Long value) {
+                    score.setText("Score : " + value);
+                }
+            });
+            readRang(new MyCallback() {
+                @Override
+                public void onCallback(Long value) {
+                    rang.setText("Rang : " + value);
+                }
+            });
+
             connected =true;
+
         } else {
             user_connecte.setText("Non connecté");
+            score.setText("");
+            rang.setText("");
             connected =false;
         }
         if(!musicNotReleased) {
@@ -194,6 +230,40 @@ public class MainActivity extends AppCompatActivity {
         }
         gagne=false;
     }
+
+
+    public interface MyCallback {
+        void onCallback(Long value);
+    }
+
+    public void readScore(MyCallback myCallback) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase.child(user.getUid()).child("score").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Long value = dataSnapshot.getValue(Long.class);
+                myCallback.onCallback(value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    public void readRang(MyCallback myCallback) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase.child(user.getUid()).child("rang").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Long value = dataSnapshot.getValue(Long.class);
+                myCallback.onCallback(value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
 
     public void cacherBarre(){
         int currentApiVersion = android.os.Build.VERSION.SDK_INT;

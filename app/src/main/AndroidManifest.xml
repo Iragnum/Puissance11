@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Puissance11">
         <activity
+            android:name=".Regles"
+            android:exported="true" />
+        <activity
             android:name=".Connexion"
             android:exported="true" />
         <activity

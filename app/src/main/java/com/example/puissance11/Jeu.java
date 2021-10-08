@@ -1,5 +1,6 @@
 package com.example.puissance11;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -8,11 +9,24 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Jeu extends AppCompatActivity {
 
@@ -43,6 +57,11 @@ public class Jeu extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     Intent intent;
     int tempsMusique = 0;
+
+    //database
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +112,9 @@ public class Jeu extends AppCompatActivity {
             mediaPlayer=null;
             finish();
         });
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
     }
 
     public void initCartes(){
@@ -146,6 +168,9 @@ public class Jeu extends AppCompatActivity {
         scoreJ2.setText(String.valueOf(score2));
         if(score1==3){
             gagne=true;
+
+
+
         }else if (score2 == 3){
             perd = true;
         }
@@ -153,13 +178,50 @@ public class Jeu extends AppCompatActivity {
         if(perd || gagne){
             intent.putExtra("gagne",gagne);
             intent.putExtra("musicKey",tempsMusique);
-
+            FirebaseUser user = mAuth.getCurrentUser();
+            ScoreDatabase(user);
             setResult(Activity.RESULT_OK,intent);
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer=null;
             finish();
         }
+    }
+
+    void ScoreDatabase (FirebaseUser user)
+    {
+
+        mDatabase.child("users").child(user.getUid()).child("score").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+
+                    String scoreDB = String.valueOf(task.getResult().getValue());
+                    int scoreDBint = Integer.parseInt(scoreDB);
+                    if (gagne)
+                    {
+                        scoreDBint=scoreDBint+3;
+                    }
+                    else
+                    {
+                        scoreDBint=scoreDBint-1;
+                        if (scoreDBint<0)
+                        {
+                            scoreDBint=0;
+                        }
+                    }
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put("users/"+user.getUid()+"/score/",scoreDBint);
+                    mDatabase.updateChildren(childUpdates);
+
+
+                }
+            }
+        });
+
     }
 
     public void cacherBarre(){

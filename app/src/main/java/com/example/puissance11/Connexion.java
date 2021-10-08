@@ -84,13 +84,15 @@ public class Connexion extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connexion);
 
+        cacherBarre();
+        setContentView(R.layout.activity_connexion);
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
         intent = new Intent(getApplicationContext(), MainActivity.class);
         extras=getIntent().getExtras();
@@ -119,8 +121,9 @@ public class Connexion extends AppCompatActivity {
         // End Configure Google Sign In
 
 
-        cacherBarre();
+
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         editMail = findViewById(R.id.editMail);
         editPassword = findViewById(R.id.editPassword);
         bouton_connexion = findViewById(R.id.buttonConnexion);
@@ -263,10 +266,9 @@ public class Connexion extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user, String type) { //pour basculer dans la nouvelle activité
 
-        //intent.putExtra("connected",true);
         if (type.equals("google"))
         {
-            mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+
             mDatabase.child("users").child(user.getUid()).get()
                     .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -274,11 +276,17 @@ public class Connexion extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Log.e("firebase", "Error getting data", task.getException());
 
+
                     }
                     else {
-                        mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
-                        mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
-                        mDatabase.child("users").child(user.getUid()).child("score").setValue(1);
+
+                        if (String.valueOf(task.getResult().getValue()).equals("null"))
+                        {
+                            mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
+                            mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
+                            mDatabase.child("users").child(user.getUid()).child("score").setValue(0);
+                        }
+
                     }
                 }
             });

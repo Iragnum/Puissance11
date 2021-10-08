@@ -12,7 +12,9 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonInscrire"
         android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/custom_button_clicked"
         android:color="@color/button_default"
         android:fontFamily="@font/baloo"
@@ -23,15 +25,16 @@
         android:textColorLink="#D34242"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editMdp" />
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <RadioGroup
-        android:id="@+id/radioGroup2"
+        android:id="@+id/radioGroup"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/editEmail"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,8 +55,8 @@
 
         <RadioButton
             android:id="@+id/radioFemme"
-            android:layout_width="133dp"
-            android:layout_height="47dp"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
             android:text="Femme"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -66,7 +69,7 @@
     <EditText
         android:id="@+id/editNom"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:ems="10"
         android:hint="Nom"
         android:inputType="textPersonName"
@@ -84,7 +87,7 @@
     <EditText
         android:id="@+id/editPrenom"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:ems="10"
         android:hint="Prenom"
         android:inputType="textPersonName"
@@ -102,7 +105,7 @@
     <EditText
         android:id="@+id/editDate"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:ems="10"
         android:hint="01/01/1970"
         android:inputType="date"
@@ -111,7 +114,7 @@
         android:textColorLink="#D34242"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup2"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/editPrenom" />
@@ -119,7 +122,7 @@
     <EditText
         android:id="@+id/editEmail"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:ems="10"
         android:hint="xxx@yyy.com"
         android:inputType="textEmailAddress"
@@ -131,13 +134,13 @@
         app:layout_constraintBottom_toTopOf="@+id/editMdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup2"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/editMdp"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:ems="10"
         android:hint="********"
         android:inputType="textPassword"
@@ -147,7 +150,7 @@
         android:textColorLink="#D34242"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttonInscrire"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/editEmail"
@@ -156,7 +159,9 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancel"
         android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/custom_button_clicked"
         android:color="@color/button_default"
         android:fontFamily="@font/baloo"
@@ -170,7 +175,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonInscrire" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -183,10 +188,11 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/nom"
-        android:textColor="#FFF8E1"
         android:autoSizePresetSizes="@array/autosize_text_sizes"
         android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="@string/nom"
+        android:textColor="#FFF8E1"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/editNom"
         app:layout_constraintEnd_toStartOf="@+id/editNom"
@@ -197,10 +203,11 @@
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/prenom"
-        android:textColor="#FFF8E1"
         android:autoSizePresetSizes="@array/autosize_text_sizes"
         android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="@string/prenom"
+        android:textColor="#FFF8E1"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/editPrenom"
         app:layout_constraintEnd_toStartOf="@+id/editPrenom"
@@ -211,10 +218,11 @@
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/date_naissance"
-        android:textColor="#FFF8E1"
         android:autoSizePresetSizes="@array/autosize_text_sizes"
         android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="@string/date_naissance"
+        android:textColor="#FFF8E1"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/editDate"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
@@ -225,23 +233,26 @@
         android:id="@+id/textView5"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:autoSizePresetSizes="@array/autosize_text_sizes"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
         android:text="@string/sexe"
         android:textColor="#FFF8E1"
-        android:autoSizeTextType="uniform"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/radioGroup2"
-        app:layout_constraintEnd_toStartOf="@+id/radioGroup2"
+        app:layout_constraintBottom_toBottomOf="@+id/radioGroup"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radioGroup2" />
+        app:layout_constraintTop_toTopOf="@+id/radioGroup" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/email"
-        android:textColor="#FFF8E1"
         android:autoSizePresetSizes="@array/autosize_text_sizes"
         android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="@string/email"
+        android:textColor="#FFF8E1"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/editEmail"
         app:layout_constraintEnd_toStartOf="@+id/editEmail"
@@ -254,6 +265,7 @@
         android:layout_height="0dp"
         android:autoSizePresetSizes="@array/autosize_text_sizes"
         android:autoSizeTextType="uniform"
+        android:gravity="center"
         android:text="@string/mdp"
         android:textColor="#FFF8E1"
         android:textStyle="bold"
@@ -267,6 +279,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="left"
-        app:constraint_referenced_ids="guideline6" />
+        app:constraint_referenced_ids="guideline6"
+        tools:layout_editor_absoluteX="144dp" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
