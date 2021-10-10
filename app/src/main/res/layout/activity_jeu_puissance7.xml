@@ -10,20 +10,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/mancheTexte"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Manche :"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.034" />
-
-    <TextView
-        android:id="@+id/scoreManche2"
+        android:id="@+id/scoreManche3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
@@ -36,7 +23,33 @@
         app:layout_constraintVertical_bias="0.034" />
 
     <TextView
-        android:id="@+id/tiret3"
+        android:id="@+id/scoreManche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034" />
+
+    <TextView
+        android:id="@+id/mancheTexte2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manche :"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034" />
+
+    <TextView
+        android:id="@+id/tiret4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
@@ -48,18 +61,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.034" />
 
-    <TextView
-        android:id="@+id/scoreManche1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="20sp"
+    <ImageView
+        android:id="@+id/eponge2"
+        android:layout_width="130dp"
+        android:layout_height="205dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.034" />
+        app:layout_constraintVertical_bias="0.121"
+        app:srcCompat="@drawable/eponge"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancelJEU"
@@ -79,8 +93,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feuille"
-        app:layout_constraintVertical_bias="0.46" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintVertical_bias="0.942" />
 
     <TextView
         android:id="@+id/score2"
@@ -98,14 +112,50 @@
     <ImageView
         android:id="@+id/ciseaux"
         android:layout_width="76dp"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/feuille"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/carte_ciseaux" />
+        app:srcCompat="@drawable/ciseaux" />
+
+    <ImageView
+        android:id="@+id/feu"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ciseaux"
+        app:layout_constraintVertical_bias="0.147"
+        app:srcCompat="@drawable/feu" />
+
+    <ImageView
+        android:id="@+id/air"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.306"
+        app:layout_constraintStart_toEndOf="@+id/feu"
+        app:layout_constraintTop_toBottomOf="@+id/ciseaux"
+        app:layout_constraintVertical_bias="0.147"
+        app:srcCompat="@drawable/air" />
+
+    <ImageView
+        android:id="@+id/eau"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toEndOf="@+id/air"
+        app:layout_constraintTop_toBottomOf="@+id/ciseaux"
+        app:layout_constraintVertical_bias="0.147"
+        app:srcCompat="@drawable/eau" />
 
     <ImageView
         android:id="@+id/ciseaux2"
@@ -118,7 +168,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.121"
-        app:srcCompat="@drawable/carte_ciseaux"
+        app:srcCompat="@drawable/ciseaux"
         tools:visibility="visible" />
 
     <ImageView
@@ -132,7 +182,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.121"
-        app:srcCompat="@drawable/carte_papier"
+        app:srcCompat="@drawable/papier"
         tools:visibility="visible" />
 
     <ImageView
@@ -146,7 +196,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.121"
-        app:srcCompat="@drawable/carte_pierre"
+        app:srcCompat="@drawable/pierre"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/feu2"
+        android:layout_width="130dp"
+        android:layout_height="205dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121"
+        app:srcCompat="@drawable/feu"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/air2"
+        android:layout_width="130dp"
+        android:layout_height="205dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121"
+        app:srcCompat="@drawable/air"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/eau2"
+        android:layout_width="130dp"
+        android:layout_height="205dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121"
+        app:srcCompat="@drawable/eau"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -154,31 +246,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
+        app:layout_constraintGuide_percent="0.52" />
 
     <ImageView
         android:id="@+id/feuille"
         android:layout_width="76dp"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintHorizontal_bias="0.592"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/ciseaux2"
-        app:layout_constraintVertical_bias="0.548"
-        app:srcCompat="@drawable/carte_papier" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/papier" />
 
     <ImageView
         android:id="@+id/pierre"
         android:layout_width="76dp"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/feuille"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/pierre" />
+
+    <ImageView
+        android:id="@+id/eponge"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.456"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="@+id/feuille"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/carte_pierre" />
+        app:srcCompat="@drawable/eponge" />
 
     <TextView
         android:id="@+id/scoreText"

@@ -1,9 +1,5 @@
 package com.example.puissance11;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -12,6 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,14 +24,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JeuPuit extends AppCompatActivity {
+public class JeuPuissance7 extends AppCompatActivity {
 
     //Joueur
     Carte pierre;
     Carte feuille;
     Carte ciseaux;
-    Carte puit;
-    Carte [] cartes = {pierre,feuille,ciseaux,puit};
+    Carte eponge;
+    Carte eau;
+    Carte feu;
+    Carte air;
+    Carte [] cartes = {pierre,feuille,ciseaux,eponge,eau,feu,air};
     TextView scoreJ1;
     TextView mancheJ1;
     int score1 = 0;
@@ -44,8 +47,11 @@ public class JeuPuit extends AppCompatActivity {
     Carte pierre2;
     Carte feuille2;
     Carte ciseaux2;
-    Carte puit2;
-    Carte [] cartes2 = {pierre2,feuille2,ciseaux2,puit2};
+    Carte eponge2;
+    Carte eau2;
+    Carte feu2;
+    Carte air2;
+    Carte [] cartes2 = {pierre2,feuille2,ciseaux2,eponge2,eau2,feu2,air2};
     TextView scoreJ2;
     TextView mancheJ2;
     int adversaire = 0;
@@ -72,7 +78,7 @@ public class JeuPuit extends AppCompatActivity {
         //cacher la barre du bas fin
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
-        setContentView(R.layout.activity_jeu_puit);
+        setContentView(R.layout.activity_jeu_puissance7);
         intent = new Intent(getApplicationContext(), MainActivity.class);
         extras=getIntent().getExtras();
         if (extras != null) {
@@ -86,12 +92,21 @@ public class JeuPuit extends AppCompatActivity {
         pierre=new Carte(findViewById(R.id.pierre),true);
         feuille=new Carte(findViewById(R.id.feuille));
         ciseaux=new Carte(findViewById(R.id.ciseaux));
-        puit=new Carte(findViewById(R.id.puit));
+        eponge=new Carte(findViewById(R.id.eponge));
+        eau=new Carte(findViewById(R.id.eau));
+        feu=new Carte(findViewById(R.id.feu));
+        air=new Carte(findViewById(R.id.air));
+
 
         pierre2=new Carte(findViewById(R.id.pierre2),true);
         feuille2=new Carte(findViewById(R.id.feuille2));
         ciseaux2=new Carte(findViewById(R.id.ciseaux2));
-        puit2=new Carte(findViewById(R.id.puit2));
+        eponge2=new Carte(findViewById(R.id.eponge2));
+        eau2=new Carte(findViewById(R.id.eau2));
+        feu2=new Carte(findViewById(R.id.feu2));
+        air2=new Carte(findViewById(R.id.air2));
+
+
 
         scoreJ1=findViewById(R.id.score1);
         scoreJ2=findViewById(R.id.score2);
@@ -110,7 +125,10 @@ public class JeuPuit extends AppCompatActivity {
         clicCarte(pierre);
         clicCarte(feuille);
         clicCarte(ciseaux);
-        clicCarte(puit);
+        clicCarte(eponge);
+        clicCarte(eau);
+        clicCarte(feu);
+        clicCarte(air);
 
         cancel.setOnClickListener(view -> {
             intent.putExtra("musicKey",tempsMusique);
@@ -130,19 +148,30 @@ public class JeuPuit extends AppCompatActivity {
 
     public void initCartes(){
         int i;
-        pierre.setMatch(ciseaux.getID(),-1,feuille.getID(),puit.getID());
-        feuille.setMatch(pierre.getID(),puit.getID(),ciseaux.getID(),-1);
-        ciseaux.setMatch(feuille.getID(),-1,pierre.getID(),puit.getID());
-        puit.setMatch(pierre.getID(),ciseaux.getID(),feuille.getID(),-1);
+        pierre.setMatch(ciseaux.getID(),feu.getID(),eponge.getID(),feuille.getID(),eau.getID(),air.getID());
+        feuille.setMatch(pierre.getID(),air.getID(),eau.getID(),ciseaux.getID(),feu.getID(),eponge.getID());
+        ciseaux.setMatch(feuille.getID(),eponge.getID(),air.getID(),pierre.getID(),eau.getID(),feu.getID());
+        feu.setMatch(feuille.getID(),eponge.getID(),ciseaux.getID(),eau.getID(),air.getID(),pierre.getID());
+        eau.setMatch(feu.getID(),pierre.getID(),ciseaux.getID(),eponge.getID(),feuille.getID(),air.getID());
+        air.setMatch(eau.getID(),feu.getID(),pierre.getID(),ciseaux.getID(),eponge.getID(),feuille.getID());
+        eponge.setMatch(feuille.getID(),eau.getID(),air.getID(),feu.getID(),ciseaux.getID(),pierre.getID());
+
 
         cartes[0] = pierre;
         cartes[1] = feuille;
         cartes[2] = ciseaux;
-        cartes[3] = puit;
+        cartes[3] = eponge;
+        cartes[4]= eau;
+        cartes[5]= feu;
+        cartes[6]= air;
+
         cartes2[0] = pierre2;
         cartes2[1] = feuille2;
         cartes2[2] = ciseaux2;
-        cartes2[3] = puit2;
+        cartes2[3] = eponge2;
+        cartes2[4]= eau2;
+        cartes2[5]= feu2;
+        cartes2[6]= air2;
 
         for(i=0;i<cartes.length;i++){
             clicCarte(cartes[i]);
@@ -160,15 +189,15 @@ public class JeuPuit extends AppCompatActivity {
 
         cartes2[adversaire].getImage().setVisibility(View.INVISIBLE);
 
-        adversaire = (int) Math.round(((Math.random() * ((30 - 0) + 0)) + 0)/10) ;
+        adversaire = (int) Math.round(((Math.random() * ((60 - 0) + 0)) + 0)/10) ;
         cartes2[adversaire].getImage().setVisibility(View.VISIBLE);
 
 
-        if(carte.getGagne() == adversaire+1 || carte.getGagne2() == adversaire+1){
+        if(carte.getGagne() == adversaire+1 || carte.getGagne2() == adversaire+1 || carte.getGagne3() == adversaire+1){
             score1++;
             nbManches++;
 
-        }else if(carte.getPerd() == adversaire+1 || carte.getPerd2() == adversaire+1 ){
+        }else if(carte.getPerd() == adversaire+1 || carte.getPerd2() == adversaire+1 || carte.getPerd3() == adversaire+1){
             score2++;
             nbManches++;
 
@@ -208,7 +237,7 @@ public class JeuPuit extends AppCompatActivity {
     }
 
     public void cacherBarre(){
-        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        int currentApiVersion = Build.VERSION.SDK_INT;
 
         final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -256,11 +285,11 @@ public class JeuPuit extends AppCompatActivity {
                     int scoreDBint = Integer.parseInt(scoreDB);
                     if (aGagne() == 2)
                     {
-                        scoreDBint=scoreDBint+5;
+                        scoreDBint=scoreDBint+8;
                     }
-                    else if(aGagne() == 1)
+                    else if (aGagne() == 1)
                     {
-                        scoreDBint=scoreDBint-2;
+                        scoreDBint=scoreDBint-3;
                         if (scoreDBint<0)
                         {
                             scoreDBint=0;

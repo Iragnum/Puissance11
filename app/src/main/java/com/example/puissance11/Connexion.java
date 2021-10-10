@@ -105,7 +105,6 @@ public class Connexion extends AppCompatActivity {
 
         retour=findViewById(R.id.buttonRetour);
         retour.setOnClickListener(view ->  {
-            intent.putExtra("connected",false);
             intent.putExtra("musicKey",tempsMusique);
             setResult(Activity.RESULT_OK,intent);
             mediaPlayer.stop();
@@ -271,25 +270,25 @@ public class Connexion extends AppCompatActivity {
 
             mDatabase.child("users").child(user.getUid()).get()
                     .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (!task.isSuccessful()) {
+                                Log.e("firebase", "Error getting data", task.getException());
 
 
-                    }
-                    else {
+                            }
+                            else {
 
-                        if (String.valueOf(task.getResult().getValue()).equals("null"))
-                        {
-                            mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
-                            mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
-                            mDatabase.child("users").child(user.getUid()).child("score").setValue(0);
+                                if (String.valueOf(task.getResult().getValue()).equals("null"))
+                                {
+                                    mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
+                                    mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
+                                    mDatabase.child("users").child(user.getUid()).child("score").setValue(0);
+                                }
+
+                            }
                         }
-
-                    }
-                }
-            });
+                    });
 
         }
         intent.putExtra("musicKey",tempsMusique);

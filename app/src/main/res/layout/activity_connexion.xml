@@ -140,7 +140,7 @@
         android:background="@drawable/custom_button_clicked"
         android:color="@color/button_default"
         android:fontFamily="@font/baloo"
-        android:text="Se connecter avec Google"
+        android:text="Connexion Google"
         android:textAllCaps="false"
         android:textColor="#FFF8E1"
         android:textColorHint="#000000"

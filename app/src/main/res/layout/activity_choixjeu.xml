@@ -10,51 +10,7 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/connexion"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:background="@drawable/custom_button_clicked"
-        android:fontFamily="@font/baloo"
-        android:text="@string/connexion"
-        android:textAllCaps="false"
-        android:textColor="#FFF8E1"
-        android:textColorHint="#000000"
-        android:textColorLink="#D34242"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933"
-        tools:ignore="DuplicateSpeakableTextCheck" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/deconnexion"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:background="@drawable/custom_button_clicked"
-        android:fontFamily="@font/baloo"
-        android:text="@string/deconnexion"
-        android:textAllCaps="false"
-        android:textColor="#E8E4CE"
-        android:textColorHint="#000000"
-        android:textColorLink="#D34242"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933"
-        tools:ignore="DuplicateSpeakableTextCheck"
-        tools:visibility="invisible" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/jouer"
+        android:id="@+id/jouer1"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:background="@drawable/custom_button_clicked"
@@ -67,21 +23,21 @@
         android:textColorLink="#D34242"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/connexion"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.911" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/cancel"
+        android:id="@+id/jouer3"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:background="@drawable/custom_button_clicked"
         android:color="@color/button_default"
         android:fontFamily="@font/baloo"
-        android:text="@string/inscription"
+        android:text="@string/puissance_7"
         android:textAllCaps="false"
         android:textColor="#FFF8E1"
         android:textColorHint="#000000"
@@ -90,23 +46,67 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.871" />
+        app:layout_constraintVertical_bias="0.777" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancel2"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_button_clicked"
+        android:color="@color/button_default"
+        android:fontFamily="@font/baloo"
+        android:text="@string/retour"
+        android:textAllCaps="false"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#000000"
+        android:textColorLink="#D34242"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jouer3"
+        app:layout_constraintVertical_bias="0.379" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/jouer2"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:background="@drawable/custom_button_clicked"
+        android:color="@color/button_default"
+        android:fontFamily="@font/baloo"
+        android:text="@string/variant_puit"
+        android:textAllCaps="false"
+        android:textColor="#FFF8E1"
+        android:textColorHint="#000000"
+        android:textColorLink="#D34242"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.639" />
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifImageView"
+        android:id="@+id/ovni"
         android:layout_width="264dp"
         android:layout_height="175dp"
         android:src="@drawable/ovnigif2"
-        app:layout_constraintBottom_toTopOf="@+id/jouer"
+        app:layout_constraintBottom_toTopOf="@+id/jouer1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ImageContrastCheck" />
 
     <TextView
-        android:id="@+id/textViewConnexion"
+        android:id="@+id/textViewConnexion1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFF8E1"
@@ -121,7 +121,7 @@
         app:layout_constraintVertical_bias="0.977" />
 
     <TextView
-        android:id="@+id/textViewRang"
+        android:id="@+id/textViewRang1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFF8E1"
@@ -135,7 +135,7 @@
         app:layout_constraintVertical_bias="0.022" />
 
     <TextView
-        android:id="@+id/textViewScore"
+        android:id="@+id/textViewScore1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
@@ -143,24 +143,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewRang"
+        app:layout_constraintEnd_toEndOf="@+id/textViewRang1"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewRang"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRang"
+        app:layout_constraintStart_toStartOf="@+id/textViewRang1"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRang1"
         app:layout_constraintVertical_bias="0.02" />
-
-    <Button
-        android:id="@+id/buttonQuestion"
-        android:layout_width="43dp"
-        android:layout_height="37dp"
-        android:background="@drawable/question"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.956"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.978" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

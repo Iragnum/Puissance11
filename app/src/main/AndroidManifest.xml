@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Puissance11">
         <activity
+            android:name=".JeuPuissance7"
+            android:exported="true" />
+        <activity
             android:name=".Regles"
             android:exported="true" />
         <activity
@@ -20,6 +23,10 @@
             android:exported="true" />
         <activity
             android:name=".Jeu"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MenuJeu"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity

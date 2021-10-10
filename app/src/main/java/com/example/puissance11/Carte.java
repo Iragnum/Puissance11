@@ -11,8 +11,10 @@ public class Carte {
     int id ;
     int gagne;
     int gagne2 = -1;
+    int gagne3 = -1;
     int perd;
-    int perd2;
+    int perd2 = -1;
+    int perd3 = -1;
 
 
     Carte(ImageView im, boolean raz){
@@ -41,6 +43,14 @@ public class Carte {
         this.perd2=perd2;
     }
 
+    public void setMatch(int gagne,int gagne2,int gagne3,int perd, int perd2, int perd3){  //Set les valeurs de gagne et perd
+        this.gagne=gagne;
+        this.perd=perd;
+        this.gagne2=gagne2;
+        this.perd2=perd2;
+        this.gagne3=gagne3;
+        this.perd3=perd3;
+    }
 
     public ImageView getImage(){
         return image;
@@ -56,6 +66,10 @@ public class Carte {
 
     public int getGagne2(){return gagne2;}
 
+    public int getGagne3(){
+        return gagne3;
+    }
+
     public int getPerd(){
         return perd;
     }
@@ -64,6 +78,9 @@ public class Carte {
         return perd2;
     }
 
+    public int getPerd3(){
+        return perd3;
+    }
 
     public void setId(int ID){
         id=ID;

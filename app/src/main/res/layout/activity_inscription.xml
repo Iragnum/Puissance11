@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/editDate">
+        app:layout_constraintTop_toBottomOf="@id/SV">
 
         <RadioButton
             android:id="@+id/radioHomme"
@@ -96,28 +96,11 @@
         android:textColorLink="#D34242"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editDate"
+        app:layout_constraintBottom_toTopOf="@id/SV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toBottomOf="@+id/editNom"
         tools:ignore="TouchTargetSizeCheck" />
-
-    <EditText
-        android:id="@+id/editDate"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:hint="01/01/1970"
-        android:inputType="date"
-        android:textColor="#FFF8E1"
-        android:textColorHint="#70000000"
-        android:textColorLink="#D34242"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/editPrenom" />
 
     <EditText
         android:id="@+id/editEmail"
@@ -224,10 +207,10 @@
         android:text="@string/date_naissance"
         android:textColor="#FFF8E1"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/editDate"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editDate" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textView5"
@@ -301,5 +284,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85" />
+
+    <ScrollView
+        android:id="@+id/SV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/editPrenom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/edittextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteY="606dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

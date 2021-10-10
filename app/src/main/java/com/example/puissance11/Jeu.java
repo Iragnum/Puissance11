@@ -36,9 +36,10 @@ public class Jeu extends AppCompatActivity {
     Carte ciseaux;
     Carte [] cartes = {pierre,feuille,ciseaux};
     TextView scoreJ1;
+    TextView mancheJ1;
     int score1 = 0;
-    boolean gagne = false;
-    boolean perd = false;
+    int manche1 = 0;
+    int nbManches=0;
     //Joueur
 
 
@@ -48,8 +49,10 @@ public class Jeu extends AppCompatActivity {
     Carte ciseaux2;
     Carte [] cartes2 = {pierre2,feuille2,ciseaux2};
     TextView scoreJ2;
-    int adversaire=0;
+    TextView mancheJ2;
+    int adversaire = 0;
     int score2 = 0;
+    int manche2 = 0;
     //Adversaire
 
     AppCompatButton cancel;
@@ -97,6 +100,11 @@ public class Jeu extends AppCompatActivity {
         scoreJ1.setText(String.valueOf(score1));
         scoreJ2.setText(String.valueOf(score2));
 
+        mancheJ1=findViewById(R.id.scoreManche1);
+        mancheJ2=findViewById(R.id.scoreManche2);
+        mancheJ1.setText(String.valueOf(manche1));
+        mancheJ2.setText(String.valueOf(manche2));
+
         cancel=findViewById(R.id.cancelJEU);
 
         initCartes();
@@ -106,6 +114,9 @@ public class Jeu extends AppCompatActivity {
 
         cancel.setOnClickListener(view -> {
             intent.putExtra("musicKey",tempsMusique);
+            intent.putExtra("gagne",aGagne());
+            FirebaseUser user = mAuth.getCurrentUser();
+            ScoreDatabase(user);
             setResult(Activity.RESULT_OK,intent);
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -139,9 +150,7 @@ public class Jeu extends AppCompatActivity {
 
     public void clicCarte(Carte carte){
         carte.getImage().setOnClickListener(view -> {
-            if(!gagne && !perd) {
-                Jeu(carte);
-            }
+            Jeu(carte);
         });
     }
 
@@ -156,36 +165,46 @@ public class Jeu extends AppCompatActivity {
 
         if(carte.getGagne() == adversaire+1){
             score1++;
+            nbManches++;
+
 
         }else if(carte.getPerd() == adversaire+1){
             score2++;
+            nbManches++;
 
         }else{
+            nbManches++;
+        }
 
+        if(score1==3){
+            manche1++;
+            score1=0;
+            score2=0;
+        }else if (score2 == 3){
+            manche2++;
+            score1=0;
+            score2=0;
+        }
+        else if(nbManches == 5){
+            if(score1>score2){
+                manche1++;
+                score1=0;
+                score2=0;
+            }else if(score2>score1){
+                manche2++;
+                score1=0;
+                score2=0;
+            }else{
+                score1=0;
+                score2=0;
+            }
         }
 
         scoreJ1.setText(String.valueOf(score1));
         scoreJ2.setText(String.valueOf(score2));
-        if(score1==3){
-            gagne=true;
 
-
-
-        }else if (score2 == 3){
-            perd = true;
-        }
-
-        if(perd || gagne){
-            intent.putExtra("gagne",gagne);
-            intent.putExtra("musicKey",tempsMusique);
-            FirebaseUser user = mAuth.getCurrentUser();
-            ScoreDatabase(user);
-            setResult(Activity.RESULT_OK,intent);
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer=null;
-            finish();
-        }
+        mancheJ1.setText(String.valueOf(manche1));
+        mancheJ2.setText(String.valueOf(manche2));
     }
 
     void ScoreDatabase (FirebaseUser user)
@@ -201,11 +220,11 @@ public class Jeu extends AppCompatActivity {
 
                     String scoreDB = String.valueOf(task.getResult().getValue());
                     int scoreDBint = Integer.parseInt(scoreDB);
-                    if (gagne)
+                    if (aGagne() == 2)
                     {
                         scoreDBint=scoreDBint+3;
                     }
-                    else
+                    else if(aGagne() == 1)
                     {
                         scoreDBint=scoreDBint-1;
                         if (scoreDBint<0)
@@ -255,6 +274,16 @@ public class Jeu extends AppCompatActivity {
                             }
                         }
                     });
+        }
+    }
+
+    public int aGagne(){
+        if(manche1 > manche2){
+            return 2;
+        }else if(manche2 > manche1){
+            return 1;
+        }else{
+            return 0;
         }
     }
 

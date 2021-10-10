@@ -2,54 +2,108 @@ package com.example.puissance11;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class Regles extends AppCompatActivity {
+
+    Intent intent;
+    Button retour;
+    Bundle extras;
+    int tempsMusique = 0;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cacherBarre();
         setContentView(R.layout.activity_regles);
 
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        extras=getIntent().getExtras();
+        if (extras != null) {
+            tempsMusique = extras.getInt("musicKey");
+        }
+        mediaPlayer.seekTo(tempsMusique);
+        mediaPlayer.start();
+
+
+        retour=findViewById(R.id.buttonRetour);
+        retour.setOnClickListener(view ->  {
+            intent.putExtra("musicKey",tempsMusique);
+            setResult(Activity.RESULT_OK,intent);
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer=null;
+            finish();
+        });
+
     }
+
+    public void cacherBarre(){
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+
+        final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+
+        if(currentApiVersion >= Build.VERSION_CODES.KITKAT)
+        {
+
+            getWindow().getDecorView().setSystemUiVisibility(flags);
+
+
+            final View decorView = getWindow().getDecorView();
+            decorView
+                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
+                    {
+
+                        @Override
+                        public void onSystemUiVisibilityChange(int visibility)
+                        {
+                            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
+                            {
+                                decorView.setSystemUiVisibility(flags);
+                            }
+                        }
+                    });
+        }
+    }
+
+
 }
 
 
 
 /*
 \n
-        On fonction d'où on vient : faire en sorte que la page des règles renvoie où l'on était
-
-        Niveau 1 : Pierre - Papier - Ciseaux\n
-
-       Une victoire = 3 points, une défaite = -1 points \n
-
-        - La pierre bat la paire de ciseaux\n
-        - La paire de ciseaux bat la feuille\n
-        - La feuille bat la pierre\n
-
-        Niveau 2 : Pierre - Papier - Ciseaux - Puits  \n
-        Une victoire = 5 points, une défaite = -2 points\n
-
-         - La pierre bat la paire de ciseaux\n
-         - La feuille bat la pierre\n
-         - La feuille bat le puits\n
-         - Le puits bat la paire de cieseaux\n
-         - Le puits bat la pierre\n
-
-         Niveau 3 : Puissance 7 : Pierre - Papier - Ciseaux - Eau - Feu - Air - Eponge\n
-        <div></div>
-        - La pierre éteint le feu, écrase les ciseaux et l'éponge\n
-        - Le feu fait fondre les ciseaux, brûle l'éponge et le papier\n
-        - Les ciseaux coupent l'éponge, le papier et son claquement réseonne dans l'air\n
-        - L'éponge mouille le papier, contient des trous d'air et absorbe l'eau\n
-        - Le papier évente l'air, flotte sur l'eau et recouvre la pierre\n
-        - L'air évapore l'eau, érode la pierre et éteint le feu\n
-        - l'eau érode la pierre, éteint le feu et rouille les ciseaux\n
 
 
-        <string name="rules">Niveau 1 : Pierre - Papier - Ciseaux\nUne victoire = 3 points, une défaite = -1 points \n\n- La pierre bat la paire de ciseaux\n- La paire de ciseaux bat la feuille\n- La feuille bat la pierre\n\nNiveau 2 : Pierre - Papier - Ciseaux - Puits  \nUne victoire = 5 points, une défaite = -2 points\n\n- La pierre bat la paire de ciseaux\n- La feuille bat la pierre\n- La feuille bat le puits\n- Le puits bat la paire de cieseaux\n- Le puits bat la pierre\n\nNiveau 3 : Puissance 7 : Pierre - Papier - Ciseaux - Eau - Feu - Air - Eponge\n\n- La pierre éteint le feu, écrase les ciseaux et l'éponge\n- Le feu fait fondre les ciseaux, brûle l'éponge et le papier\n- Les ciseaux coupent l'éponge, le papier et son claquement réseonne dans l'air\n- L'éponge mouille le papier, contient des trous d'air et absorbe l'eau\n- Le papier évente l'air, flotte sur l'eau et recouvre la pierre\n- L'air évapore l'eau, érode la pierre et éteint le feu\n- l'eau érode la pierre, éteint le feu et rouille les ciseaux\n</string>
 
+
+  Query personsQuery = personsRef.orderByChild("score");
+recAdapterRank = new FirebaseRecyclerAdapter<Word, RankingViewHolder>(personsOptions) {
+    @Override
+    protected void onBindViewHolder(RankingActivity.RankingViewHolder holder, final int position, final Word model) {
+        holder.setWord(model.getWord());
+        long score = model.getCount();
+        holder.setScore(String.valueOf(score));
+
+        //Here is the Code
+        int realRank = 100 - holder.getAdapterPosition();
+
+        holder.setRank(String.valueOf(realRank));
+    }
 
 
  */

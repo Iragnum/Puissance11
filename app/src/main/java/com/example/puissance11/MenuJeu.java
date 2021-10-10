@@ -1,23 +1,20 @@
 package com.example.puissance11;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
-import android.content.Intent;
-import android.media.MediaPlayer;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,90 +22,87 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-
-public class MainActivity extends AppCompatActivity {
+public class MenuJeu extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     AppCompatButton jouer;
-    AppCompatButton connexion;
-    AppCompatButton inscription;
-    AppCompatButton deconnexion;
+    AppCompatButton jouerPuit;
+    AppCompatButton jouerPuissance;
+    AppCompatButton cancel;
     MediaPlayer mediaPlayer;
     TextView user_connecte, score, rang;
-    Button Regle;
-    boolean connected;
-    boolean gagne = false;
     boolean musicNotReleased = false;
     String username;
     String mdp;
     int tempsMusique =0;
-
+    Intent intent;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_choixjeu);
         cacherBarre();
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
+        musicNotReleased=true;
+
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        extras=getIntent().getExtras();
+
+        if (extras != null) {
+            tempsMusique = extras.getInt("musicKey");
+        }
+        mediaPlayer.seekTo(tempsMusique);
+        mediaPlayer.start();
+
         mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference("users");
-        user_connecte = findViewById(R.id.textViewConnexion);
-        score = findViewById(R.id.textViewScore);
-        rang = findViewById(R.id.textViewRang);
-        jouer = findViewById(R.id.jouer);
-        connexion = findViewById(R.id.connexion);
-        inscription = findViewById(R.id.cancel);
-        deconnexion = findViewById(R.id.deconnexion);
-        Regle = findViewById(R.id.buttonQuestion);
+        user_connecte = findViewById(R.id.textViewConnexion1);
+        score= findViewById(R.id.textViewScore1);
+        rang= findViewById(R.id.textViewRang1);
+        jouer = findViewById(R.id.jouer1);
+        jouerPuit = findViewById(R.id.jouer2);
+        jouerPuissance= findViewById(R.id.jouer3);
+        cancel=findViewById(R.id.cancel2);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             user_connecte.setText(user.getEmail());
-            connected = true;
-
         } else {
             user_connecte.setText("Non connecté");
             score.setText("");
             rang.setText("");
-            connected = false;
         }
-        deconnexion.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(MainActivity.this, "Déconnecté", Toast.LENGTH_SHORT).show();
-            onResume();
-        });
-
-        Regle.setOnClickListener(view -> {
-            Intent retour3 = new Intent(this, Regles.class);
-
-            retour3.putExtra("musicKey", tempsMusique);
-
-            startActivity(retour3);
-
-            overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
-        });
-
-        connexion.setOnClickListener(view -> {
-
-            Intent retour3 = new Intent(this, Connexion.class);
-            retour3.putExtra("musicKey",tempsMusique);
-            startActivityForResult(retour3,3);
-            overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
-
-        });
-
-
-        jouer.setOnClickListener(view -> {
-            Intent retour2 = new Intent(this, MenuJeu.class);
+        jouerPuit.setOnClickListener(view -> {
+            Intent retour2 = new Intent(this, JeuPuit.class);
             retour2.putExtra("musicKey", tempsMusique);
             startActivity(retour2);
             overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
+        });
+
+        jouerPuissance.setOnClickListener(view -> {
+            Intent retour2 = new Intent(this, JeuPuissance7.class);
+            retour2.putExtra("musicKey", tempsMusique);
+            startActivity(retour2);
+            overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
+        });
+
+        jouer.setOnClickListener(view -> {
+
+                Intent retour2 = new Intent(this, Jeu.class);
+                retour2.putExtra("musicKey", tempsMusique);
+                startActivity(retour2);
+                overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
 
         });
 
-        inscription.setOnClickListener(view ->  {
-            Intent retour = new Intent(this, Inscription.class);
-            retour.putExtra("musicKey",tempsMusique);
-            startActivity(retour);
-            overridePendingTransition(R.anim.lefttoright, R.anim.righttoleft);
+        cancel.setOnClickListener(view ->  {
+            intent.putExtra("musicKey",tempsMusique);
+            setResult(Activity.RESULT_OK,intent);
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer=null;
+            finish();
         });
 
     }
@@ -116,19 +110,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1) {
-            connected = data.getBooleanExtra("connected", true);
-            tempsMusique = data.getIntExtra("musicKey", 0);
-        }else if(requestCode==2){
-            tempsMusique = data.getIntExtra("musicKey", 0);
-        }
-        //jouer.setEnabled(connected);
+        tempsMusique = data.getIntExtra("musicKey", 0);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        connected = savedInstanceState.getBoolean("connectedKey", false);
         username = savedInstanceState.getString("usernameKey", null);
         mdp = savedInstanceState.getString("mdpKey", null);
         tempsMusique = savedInstanceState.getInt("musicKey",0);
@@ -137,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("connectedKey", connected);
         savedInstanceState.putString("usernameKey", username);
         savedInstanceState.putString("mdpKey", mdp);
         savedInstanceState.putInt("musicKey", tempsMusique);
@@ -180,29 +166,23 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null) {
             user_connecte.setText(user.getEmail());
-
-
-            readRang(new MyCallback2() {
-                @Override
-                public void onCallback(Long value) {
-                    rang.setText("Rang : " + value);
-                }
-            });
-
             readScore(new MyCallback() {
                 @Override
                 public void onCallback(Long value) {
                     score.setText("Score : " + value);
                 }
             });
-
-            connected =true;
+            readRang(new MyCallback() {
+                @Override
+                public void onCallback(Long value) {
+                    rang.setText("Rang : " + value);
+                }
+            });
 
         } else {
             user_connecte.setText("Non connecté");
             score.setText("");
             rang.setText("");
-            connected =false;
         }
         if(!musicNotReleased) {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
@@ -215,27 +195,31 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        jouer.setEnabled(connected);
-        inscription.setEnabled(!connected);
-        if(connected) {
-            connexion.setVisibility(View.INVISIBLE);
-            deconnexion.setVisibility(View.VISIBLE);
-        }else{
-            connexion.setVisibility(View.VISIBLE);
-            deconnexion.setVisibility(View.INVISIBLE);
-        }
-        inscription.setEnabled(!connected);
-        gagne=false;
+        jouer.setEnabled(true);
+
+        readScore(new MyCallback() {
+            @Override
+            public void onCallback(Long value) {
+                if(value>=10){
+                    jouerPuit.setEnabled(true);
+                    if(value>=20){
+                        jouerPuissance.setEnabled(true);
+                    }else{
+                        jouerPuissance.setEnabled(false);
+                    }
+                }else{
+                    jouerPuit.setEnabled(false);
+                    jouerPuissance.setEnabled(false);
+                }
+            }
+        });
+
     }
 
 
     public interface MyCallback {
         void onCallback(Long value);
     }
-    public interface MyCallback2 {
-        void onCallback(Long value);
-    }
-
 
     public void readScore(MyCallback myCallback) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -251,13 +235,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void readRang(MyCallback2 myCallback2) {
+    public void readRang(MyCallback myCallback) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase.child(user.getUid()).child("rang").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Long value = dataSnapshot.getValue(Long.class);
-                myCallback2.onCallback(value);
+                myCallback.onCallback(value);
             }
 
             @Override
@@ -267,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void cacherBarre(){
-        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        int currentApiVersion = Build.VERSION.SDK_INT;
 
         final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

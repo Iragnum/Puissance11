@@ -1,7 +1,6 @@
 package com.example.puissance11;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -12,17 +11,15 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,22 +28,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Inscription extends AppCompatActivity {
 
     AppCompatButton retour;
-    Intent intent;
+    Intent intent, intentRegle;
     int tempsMusique = 0;
     Bundle extras;
     MediaPlayer mediaPlayer;
 
+    private CalendarView Calendrier;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
-    private EditText editNom, editPrenom, editMdp, editEmail, editDate;
+    private EditText editNom, editPrenom, editMdp, editEmail;
     private Button bouton_inscrire;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -96,12 +96,14 @@ public class Inscription extends AppCompatActivity {
                 editPrenom.setError("Il faut renseigner le prénom");
                 return;
             }
-
-            if (TextUtils.isEmpty(editDate.getText().toString()))
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String selectedDate = sdf.format(new Date(Calendrier.getDate()));
+            if (TextUtils.isEmpty(selectedDate))
             {
-                editDate.setError("Il faut renseigner la date de naissance");
+                Toast.makeText(Inscription.this, "Erreur - Il faut sélectionner la date de naissance", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             createAccount(email,password);
         }
     };
@@ -116,6 +118,7 @@ public class Inscription extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu);
         setContentView(R.layout.activity_inscription);
         intent = new Intent(getApplicationContext(), MainActivity.class);
+        intentRegle = new Intent(getApplicationContext(), Regles.class);
         extras=getIntent().getExtras();
         mDatabase = FirebaseDatabase.getInstance("https://puissance111-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
 
@@ -145,7 +148,8 @@ public class Inscription extends AppCompatActivity {
         editPrenom = findViewById(R.id.editPrenom);
         editMdp = findViewById(R.id.editMdp);
         editEmail = findViewById(R.id.editEmail);
-        editDate = findViewById(R.id.editDate);
+
+        Calendrier = findViewById(R.id.calendarView);
         bouton_inscrire = findViewById(R.id.buttonInscrire);
         bouton_inscrire.setOnClickListener(bouton_inscrire_listener);
         //fin init
@@ -214,10 +218,10 @@ public class Inscription extends AppCompatActivity {
 
 
     private void updateUI(FirebaseUser user) {
-       add_database(user);
-        intent.putExtra("musicKey",tempsMusique);
-        intent.putExtra("utilisateur",user);
-        setResult(Activity.RESULT_OK,intent);
+        add_database(user);
+        intentRegle.putExtra("musicKey",tempsMusique);
+        intentRegle.putExtra("utilisateur",user);
+        startActivity(intentRegle);
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer=null;
@@ -230,11 +234,13 @@ public class Inscription extends AppCompatActivity {
     {
         int selectedId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(selectedId);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String selectedDate = sdf.format(new Date(Calendrier.getDate()));
         mDatabase.child("users").child(user.getUid()).child("e-mail").setValue(user.getEmail());
         mDatabase.child("users").child(user.getUid()).child("nom").setValue(editNom.getText().toString());
         mDatabase.child("users").child(user.getUid()).child("prenom").setValue(editPrenom.getText().toString());
         mDatabase.child("users").child(user.getUid()).child("sexe").setValue(radioButton.getText().toString());
-        mDatabase.child("users").child(user.getUid()).child("date de naissance").setValue(editDate.getText().toString());
+        mDatabase.child("users").child(user.getUid()).child("date de naissance").setValue(selectedDate);
         mDatabase.child("users").child(user.getUid()).child("rang").setValue(0);
         mDatabase.child("users").child(user.getUid()).child("score").setValue(0);
 
