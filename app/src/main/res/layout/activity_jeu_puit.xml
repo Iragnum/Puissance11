@@ -145,7 +145,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.121"
-        app:srcCompat="@drawable/carte_papier"
+        app:srcCompat="@drawable/carte_papier2"
         tools:visibility="visible" />
 
     <ImageView
@@ -178,7 +178,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/ciseaux2"
         app:layout_constraintVertical_bias="0.546"
-        app:srcCompat="@drawable/carte_papier" />
+        app:srcCompat="@drawable/carte_papier2" />
 
     <ImageView
         android:id="@+id/pierre"

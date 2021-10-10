@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -180,6 +183,48 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null) {
             user_connecte.setText(user.getEmail());
+            Query myTopPostsQuery = mDatabase.orderByChild("score");
+            myTopPostsQuery.addChildEventListener(new ChildEventListener() {
+            long classement =0;
+
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    long Nombre_total = snapshot.getChildrenCount ();
+                    if (classement==0) {
+                        classement = Nombre_total+1;
+                    }
+
+                    System.out.println("The " + snapshot.getKey() + " score is " + snapshot.getValue()+ "classement = "+classement);
+
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put(snapshot.getKey()+"/rang/",classement);
+                    mDatabase.updateChildren(childUpdates);
+                    classement--;
+
+                        }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+
+            });
 
 
             readRang(new MyCallback2() {

@@ -91,18 +91,7 @@ public class Regles extends AppCompatActivity {
 
 
 
-  Query personsQuery = personsRef.orderByChild("score");
-recAdapterRank = new FirebaseRecyclerAdapter<Word, RankingViewHolder>(personsOptions) {
-    @Override
-    protected void onBindViewHolder(RankingActivity.RankingViewHolder holder, final int position, final Word model) {
-        holder.setWord(model.getWord());
-        long score = model.getCount();
-        holder.setScore(String.valueOf(score));
 
-        //Here is the Code
-        int realRank = 100 - holder.getAdapterPosition();
-
-        holder.setRank(String.valueOf(realRank));
     }
 
 
